@@ -125,7 +125,7 @@ bool SLL::search(int data) {
     return ptr != nullptr;
 }
 
-void SLL::sortedAddition(int item) {
+void SLL::sortedInsertion(int item) {
     if (head == nullptr){
         head = tail = new node(item);
     }
@@ -180,6 +180,7 @@ void DLL::addToHead(int item) {
         head = tail = newNode;
     }
     else{
+        head->prev = newNode;
         newNode->next = head;
         head = newNode;
     }
@@ -222,15 +223,108 @@ void DLL::addToIndex(int id, int item) {
         ptr = ptr->next;
     }
     if (ptr != nullptr && id > 0){
-        nodeDLL *tmp = ptr->next;
+        newNode->next = ptr->next;
+        newNode->prev = ptr->prev;
         ptr->next = newNode;
-        newNode->prev = ptr;
-        newNode->next = tmp;
-        tmp->prev = newNode;
     }
-    if (ptr == tail){
+}
+
+void DLL::reversePrint() {
+    if (!isEmpty()){
+        nodeDLL *curr = tail;
+        while (curr != nullptr){
+            cout << curr->info << " ";
+            curr = curr->prev;
+        }
+        cout << endl;
+    }
+    else{
+        cout << "List is empty!" << endl;
+    }
+}
+
+void DLL::removeFromHead() {
+    if (!isEmpty()){
+        nodeDLL *tmp = head;
+        head = head->next;
+        head->prev = nullptr;
+        free(tmp);
+    }
+    else{
+        cout << "List is Empty!" << endl;
+    }
+}
+
+void DLL::removeFromTail() {
+    if (head == tail){
+        free(head);
+        free(tail);
+    }
+    else if (isEmpty()){
+        cout << "List is empty!" << endl;
+    }
+    else{
+        nodeDLL *tmp = tail;
+        tail = tail->prev;
+        tail->next = nullptr;
+        free(tmp);
+    }
+}
+
+void DLL::removeFromMiddle(int item) {
+    if (!isEmpty()){
+        if (head->info == item){
+            removeFromHead();
+        }
+        else if (tail->info == item){
+            removeFromTail();
+        }
+        else{
+            nodeDLL *curr = head;
+            while (curr != nullptr && curr->info != item){
+                curr = curr->next;
+            }
+            if (curr == nullptr){
+                cout << "Element not found!" << endl;
+            }
+            else{
+                nodeDLL *tmp = curr;
+                curr->prev->next = curr->next;
+                curr->next->prev = curr->prev;
+                free(tmp);
+            }
+        }
+    }
+    else{
+        cout << "List is empty!" << endl;
+    }
+}
+
+void DLL::sortedInsertion(int item) {
+    nodeDLL *newNode = new nodeDLL(item);
+    if (isEmpty()){
+        head = tail = newNode;
+    }
+    else if (head->info > item){
+        head->prev = newNode;
+        newNode->next = head;
+        head = newNode;
+    }
+    else if (item > tail->info){
+        tail->next = newNode;
         newNode->prev = tail;
         tail = newNode;
+    }
+    else{
+        nodeDLL *curr = head;
+        while (curr != nullptr && curr->info < item){
+            curr = curr->next;
+        }
+        nodeDLL *ptr = curr->prev;
+        newNode->next = curr;
+        newNode->prev = curr->prev;
+        curr->prev->next = newNode;
+        curr->prev = newNode;
     }
 }
 

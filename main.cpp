@@ -4,11 +4,13 @@
 using namespace std;
 
 int main() {
-    SLL newList;
-    newList.sortedAddition(40);
-    newList.sortedAddition(30);
-    newList.sortedAddition(50);
-    newList.sortedAddition(30);
-    newList.sortedAddition(35);
+    DLL newList;
+    newList.sortedInsertion(10);
+    newList.sortedInsertion(20);
+    newList.sortedInsertion(30);
+    newList.sortedInsertion(50);
+    newList.sortedInsertion(16);
+    newList.sortedInsertion(-2200);
     newList.printList();
+    newList.reversePrint();
 }

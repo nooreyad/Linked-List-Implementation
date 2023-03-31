@@ -45,15 +45,26 @@ public:
     void printList();
     bool isEmpty();
     bool search(int data);
-    void sortedAddition(int item);
+    void sortedInsertion(int item);
 };
 
 
 class DLL{
 private:
-    node *head, *tail;
+    nodeDLL *head, *tail;
 public:
     DLL();
     ~DLL();
+    bool isEmpty();
+    bool search(int item);
+    void addToHead(int item);
+    void addToTail(int item);
+    void addToIndex(int id, int item);
+    void printList();
+    void reversePrint();
+    void removeFromHead();
+    void removeFromTail();
+    void removeFromMiddle(int item);
+    void sortedInsertion(int item);
 };
 #endif //LINKEDLIST_LINKEDLIST_H
