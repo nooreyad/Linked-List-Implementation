@@ -86,6 +86,7 @@ void SLL::addToIndex(int id, int item) {
         node *tmp = ptr->next;
         ptr->next = newNode;
         newNode->next = tmp;
+        return;
     }
     if (tail == ptr){
         tail = newNode;
@@ -145,5 +146,83 @@ void SLL::sortedAddition(int item) {
 
 DLL::DLL() {
     head = nullptr;
-    
+    tail = nullptr;
 }
+
+DLL::~DLL() {
+    delete head;
+    delete tail;
+}
+
+bool DLL::isEmpty() {
+    return head == nullptr;
+}
+
+bool DLL::search(int item) {
+    nodeDLL *ptr = head;
+    while (ptr != nullptr && ptr->info != item){
+        ptr = ptr->next;
+    }
+    return ptr != nullptr;
+}
+
+void DLL::addToHead(int item) {
+    nodeDLL *newNode = new nodeDLL (item);
+    if (head == nullptr){
+        head = tail = newNode;
+    }
+    else{
+        newNode->next = head;
+        head = newNode;
+    }
+}
+
+void DLL::printList() {
+    nodeDLL *temp = head;
+    if (isEmpty()){
+        cout << "List is empty" << endl;
+        return;
+    }
+    while (temp != nullptr){
+        cout << temp->info << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+void DLL::addToTail(int item) {
+    nodeDLL *newNode = new nodeDLL(item);
+    if (head == nullptr){
+        head = tail = newNode;
+    }
+    else{
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+}
+
+void DLL::addToIndex(int id, int item) {
+    if (id == 0){
+        addToHead(item);
+        return;
+    }
+    nodeDLL *newNode = new nodeDLL(item);
+    nodeDLL *ptr;
+    int cnt=0;
+    for (ptr = head; ptr != nullptr && cnt < id-1; cnt++){
+        ptr = ptr->next;
+    }
+    if (ptr != nullptr && id > 0){
+        nodeDLL *tmp = ptr->next;
+        ptr->next = newNode;
+        newNode->prev = ptr;
+        newNode->next = tmp;
+        tmp->prev = newNode;
+    }
+    if (ptr == tail){
+        newNode->prev = tail;
+        tail = newNode;
+    }
+}
+
